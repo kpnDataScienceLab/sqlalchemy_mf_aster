@@ -28,39 +28,13 @@ class AsterDialect_jdbc(AsterDialect):
 
 
     def create_connect_args(self, url):
-        if "MODELFACTORY" in os.environ:
-            r = (
-                #{
-                #    'jclassname': 'com.asterdata.ncluster.Driver',
-                #    'jars': ["noarch-aster-jdbc-driver.jar"],
-                #    'driver_args': [
-                #        'jdbc:ncluster://{host}:{port}/{database}/?autocommit=false' \
-                #            .format(**url.translate_connect_args()),
-                #        [url.username,
-                #        url.password]
-                #    ]
-                #}
-
-                 ["com.asterdata.ncluster.Driver",
-                  'jdbc:ncluster://{host}:{port}/{database}/?autocommit=false'.format(**url.translate_connect_args()),
-                  [url.username,  url.password]
-                  , 'noarch-aster-jdbc-driver.jar'],
-                 {}
-            )
-
-        else:
-            r = ([],
-                 {
-                     'jclassname': 'com.asterdata.ncluster.Driver',
-                     'jars': ['//usr//jars//noarch-aster-jdbc-driver.jar'],
-                     'driver_args': [
-                         'jdbc:ncluster://{host}:{port}/{database}/?autocommit=false' \
-                              .format(**url.translate_connect_args()),
-                         url.username,
-                         url.password
-                     ]
-                 }
-            )
+        r = (["com.asterdata.ncluster.Driver",
+              'jdbc:ncluster://queen02.ds.gen.local:2406/{database}/?USER={username},PWD={password},autocommit=false'.format(
+                  **url.translate_connect_args()),
+              [url.username, url.password]
+                 , 'noarch-aster-jdbc-driver.jar'],
+             {}
+        )
         return r
 
 
